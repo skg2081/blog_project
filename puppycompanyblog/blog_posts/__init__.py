@@ -1,0 +1,1 @@
+# blog_post/__init__
