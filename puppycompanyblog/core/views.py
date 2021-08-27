@@ -1,5 +1,5 @@
 # core/views.py 
-from flask import reder_template , request ,Blueprint
+from flask import request ,Blueprint, render_template
 core = Blueprint('core',__name__)  
 
 @core.route("/")
