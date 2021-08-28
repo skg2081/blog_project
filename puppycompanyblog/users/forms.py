@@ -22,9 +22,8 @@ class RegistrationForm(FlaskForm):
 
     def validate_email(self, email):
         if User.query.filter_by(email=self.email.data).first():
-
-
             raise ValidationError('Email has been registered')
+
     def validate_username(self, username):
         if User.query.filter_by(username=self.username.data).first():
             raise ValidationError('Username has been registered')
