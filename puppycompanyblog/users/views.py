@@ -17,7 +17,7 @@ def register():
 
     if form.validate_on_submit():
         user = User(email=form.email.data, username=form.username.data, password=form.password.data)
-        db.session.add()
+        db.session.add(user)
         db.session.commit()
         flash('Thanks for registration!')
         return redirect(url_for('users.login'))
@@ -33,9 +33,9 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
 
-        if user.check_password(form.password.data) and user is not None:
+        if user is not None and user.check_password(form.password.data):
             login_user(user)
-            flash('LogIn success!')
+            flash('Log In success!')
 
             next = request.args.get('next')
 
@@ -55,7 +55,7 @@ def logout():
 
 # account (update userform)
 
-@users.route('/account')
+@users.route('/account',methods=['GET','POST'])
 @login_required
 def account():
     form = UpdateUserForm()
@@ -71,13 +71,20 @@ def account():
         current_user.email = form.email.data 
         db.session.commit() 
         flash('User account updated!')
-        return redirect(url_for('user.account'))
+        return redirect(url_for('users.account'))
 
-    elif request.methods == 'GET':
+    elif request.method == 'GET':
         form.username.data = current_user.username 
         form.email.data = current_user.email 
 
-    profile_image = url_for('static', filename = 'profile_pics/' + current_user.profile_image)
+    profile_image = url_for('static', filename='profile_pics/' + current_user.profile_image)
     return render_template('account.html', profile_image=profile_image, form=form) 
 
 # user's list of blog post  
+
+@users.route('/<username>')
+def user_posts(username):
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=page, per_page=5)
+    return render_template('user_blog_posts.html',blog_posts=blog_posts, user=user)

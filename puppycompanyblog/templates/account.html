@@ -12,7 +12,7 @@
 <div class="container">
 
     <!-- added some css  -->
-    <form action="", method="POST">
+    <form method="POST" action="" enctype="multipart/form-data">
         {{form.hidden_tag()}}
 
         <div class="form-group">
@@ -26,7 +26,7 @@
         </div>
 
         <div class="form-group">
-            {{form.picture.lable(class='form-group')}} 
+            {{form.picture.label(class='form-group')}} 
             {{form.picture(class='form-control')}} 
         </div>
         

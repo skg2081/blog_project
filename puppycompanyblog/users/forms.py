@@ -1,11 +1,11 @@
 # forms 
 from flask_wtf import FlaskForm 
-from wtform import StringField, PasswordField, SubmitField, ValidationError 
-from wtform.validators import DataRequired, Email, EqualTo 
+from wtforms import StringField, PasswordField, SubmitField, ValidationError 
+from wtforms.validators import DataRequired, Email, EqualTo 
 from flask_wtf.file import FileField,  FileAllowed 
 
 from flask_login import current_user 
-from puppycompanyblog.model import User 
+from puppycompanyblog.models import User 
 
 
 class LoginForm(FlaskForm):
@@ -30,7 +30,7 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Username has been registered')
 
 
-class UpdateUserForm():
+class UpdateUserForm(FlaskForm):
     email = StringField('Email', validators = [DataRequired(), Email()])
     username = StringField('username', validators = [DataRequired()])
     picture = FileField('Update profile picture', validators = [FileAllowed(['jpg', 'png'])])
