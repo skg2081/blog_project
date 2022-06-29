@@ -2,7 +2,7 @@
 from puppycompanyblog.models import BlogPost
 from flask import request ,Blueprint, render_template
 core = Blueprint('core',__name__)  
-## core 
+## core views
 @core.route("/")
 def index():
     page = request.args.get('page', 1, type=int)
